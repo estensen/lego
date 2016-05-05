@@ -88,14 +88,14 @@ class ListEventsTestCase(APITestCase):
         self.client.force_authenticate(self.abakus_user)
         event_response = self.client.get(_get_list_url())
         self.assertEqual(event_response.status_code, 200)
-        self.assertEqual(len(event_response.data), 3)
+        self.assertEqual(len(event_response.data), 4)
 
     def test_with_webkom_user(self):
         AbakusGroup.objects.get(name='Webkom').add_user(self.abakus_user)
         self.client.force_authenticate(self.abakus_user)
         event_response = self.client.get(_get_list_url())
         self.assertEqual(event_response.status_code, 200)
-        self.assertEqual(len(event_response.data), 4)
+        self.assertEqual(len(event_response.data), 5)
 
 
 class RetrieveEventsTestCase(APITestCase):
@@ -108,12 +108,12 @@ class RetrieveEventsTestCase(APITestCase):
     def test_with_group_permission(self):
         AbakusGroup.objects.get(name='Abakus').add_user(self.abakus_user)
         self.client.force_authenticate(self.abakus_user)
-        event_response = self.client.get(_get_detail_url(2))
+        event_response = self.client.get(_get_detail_url(1))
         self.assertEqual(event_response.status_code, 200)
 
     def test_without_group_permission(self):
         self.client.force_authenticate(self.abakus_user)
-        event_response = self.client.get(_get_detail_url(2))
+        event_response = self.client.get(_get_detail_url(1))
         self.assertEqual(event_response.status_code, 404)
 
 
@@ -170,12 +170,12 @@ class RetrievePoolsTestCase(APITestCase):
     def test_with_group_permission(self):
         AbakusGroup.objects.get(name='Webkom').add_user(self.abakus_user)
         self.client.force_authenticate(self.abakus_user)
-        pool_response = self.client.get(_get_pools_detail_url(1, 1))
+        pool_response = self.client.get(_get_pools_detail_url(3, 1))
         self.assertEqual(pool_response.status_code, 200)
 
     def test_without_group_permission(self):
         self.client.force_authenticate(self.abakus_user)
-        pool_response = self.client.get(_get_pools_detail_url(1, 1))
+        pool_response = self.client.get(_get_pools_detail_url(3, 1))
         self.assertEqual(pool_response.status_code, 403)
 
 
@@ -189,7 +189,7 @@ class CreateRegistrationsTestCase(APITestCase):
         self.client.force_authenticate(self.abakus_user)
 
     def test_create(self):
-        event = Event.objects.get(title='POOLS_NO_REGISTRATIONS')
+        event = Event.objects.get(title='SINGLE_POOL')
         registration_response = self.client.post(_get_register_list_url(event.id), {})
         self.assertEqual(registration_response.status_code, 201)
 
@@ -209,7 +209,7 @@ class ListRegistrationsTestCase(APITestCase):
     def test_with_group_permission(self):
         AbakusGroup.objects.get(name='Webkom').add_user(self.abakus_user)
         self.client.force_authenticate(self.abakus_user)
-        event_response = self.client.get(_get_detail_url(1))
+        event_response = self.client.get(_get_detail_url(5))
         self.assertEqual(event_response.status_code, 200)
 
         registrations_exist = False
@@ -220,6 +220,6 @@ class ListRegistrationsTestCase(APITestCase):
 
     def test_without_group_permission(self):
         self.client.force_authenticate(self.abakus_user)
-        event_response = self.client.get(_get_detail_url(1))
+        event_response = self.client.get(_get_detail_url(5))
 
         self.assertEqual(event_response.status_code, 404)
