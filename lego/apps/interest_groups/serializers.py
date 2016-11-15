@@ -7,4 +7,9 @@ class InterestGroupSerializer(BasisModelSerializer):
 
     class Meta:
         model = InterestGroup
-        fields = ('name','id','description','descriptionLong','members','member_count')
+        fields = ('name','id','description','member_count')
+
+class InterestGroupDetailedSerializer(BasisModelSerializer):
+    class Meta:
+        model = InterestGroup
+        fields = ('name','id','description_long','members','members_count')

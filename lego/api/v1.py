@@ -12,6 +12,7 @@ from lego.apps.reactions.views import ReactionTypeViewSet, ReactionViewSet
 from lego.apps.search.views import AutocompleteViewSet, SearchViewSet
 from lego.apps.users.views.abakus_groups import AbakusGroupViewSet
 from lego.apps.users.views.users import UsersViewSet
+from lego.apps.interest_groups.views import InterestGroupViewSet
 
 router = routers.DefaultRouter()
 router.register(r'articles', ArticlesViewSet)
@@ -34,3 +35,4 @@ router.register(r'search/search', SearchViewSet, base_name='search')
 router.register(r'users', UsersViewSet)
 router.register(r'reactions', ReactionViewSet)
 router.register(r'reaction_types', ReactionTypeViewSet)
+router.register(r'interest_groups', InterestGroupViewSet)
